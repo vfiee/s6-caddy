@@ -1,0 +1,10 @@
+#!/usr/bin/with-contenv sh
+
+echo "watchman run"
+
+watchCaddyfile=/etc/caddy/Caddyfile
+
+while inotifywait -e create,move,delete,modify $watchCaddyfile; do
+    echo "file is changed, ready to restart caddy service!"
+    s6-svc -r /var/run/s6/services/caddy
+done;
