@@ -1,12 +1,16 @@
-FROM caddy:2.3.0-builder AS builder
+FROM caddy:2.6.1-builder AS builder
 
-RUN xcaddy build --with github.com/caddy-dns/cloudflare
+RUN xcaddy build \
+    --with github.com/caddy-dns/cloudflare \
+    --with github.com/greenpau/caddy-git
 
-FROM alpine:3.7
+FROM node:current-alpine3.16
 
 ENV TZ=Asia/Shanghai XDG_CONFIG_HOME=/config XDG_DATA_HOME=/data S6_VERSION=v2.2.0.3
 
-LABEL maintainer "vyronfiee <vyronfiee@gmail.com>" caddy_version="${S6_VERSION}" 
+LABEL maintainer "vyronfiee <vyronfiee@gmail.com>" \
+    s6_version="${S6_VERSION}" \
+    caddy_version="2.6.1"
 
 COPY --from=builder /usr/bin/caddy /usr/bin/caddy
 
@@ -32,6 +36,5 @@ WORKDIR /srv
 COPY Caddyfile /etc/caddy/Caddyfile
 
 COPY index.html /srv/index.html
-
 
 ENTRYPOINT ["/init"]

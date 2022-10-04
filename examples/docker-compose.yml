@@ -1,0 +1,19 @@
+version: "3"
+
+services:
+  caddy:
+    image: s6-caddy:latest
+    container_name: caddy
+    restart: always
+    ports:
+      - 2022:2022
+      - 2019:2019
+      - 2023:2023
+    volumes:
+      - ./var:/var
+      - ./data:/data
+      - ./scripts:/scripts
+      - /Users/vyron/.ssh:/root/.ssh
+      - ./etc/caddy:/etc/caddy
+      - ./etc/services:/etc/services.d
+      - ../index.html:/srv/index.html

@@ -1,1 +1,0 @@
-{"apps":{"http":{"servers":{"srv0":{"listen":[":80"],"routes":[{"handle":[{"handler":"file_server","hide":["/etc/caddy/Caddyfile"],"index_names":["index.html"],"root":"/srv"}]}]}}}}}
